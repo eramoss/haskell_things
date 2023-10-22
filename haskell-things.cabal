@@ -2,27 +2,28 @@ cabal-version:      2.4
 name:               haskell-things
 version:            0.1.0.0
 
--- A short (one-line) description of the package.
--- synopsis:
-
--- A longer description of the package.
--- description:
+synopsis: "Just a exercises of haskell books"
+description: "Haskell Studies Repository with book CIS 1940 (https://www.seas.upenn.edu/~cis1940/spring13/lectures.html)"
 
 -- A URL where users can report bugs.
 -- bug-reports:
 
--- The license under which the package is released.
--- license:
+license: MIT
 author:             eramoss
 maintainer:         edulramos@outlook.com
 
 -- A copyright notice.
--- copyright:
--- category:
+copyright: "Copyright (c) 2023 eramoss"
+
+category: exercise
 extra-source-files: CHANGELOG.md
 
+source-repository head
+  type: git
+  location: https://github.com/eramoss/haskell-things
+  
 library
-    exposed-modules:  MyLib
+    exposed-modules:  CreditCardEx
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -47,3 +48,14 @@ executable haskell-things
 
     hs-source-dirs:   app
     default-language: Haskell2010
+
+Test-Suite test-CreditCardEx
+  type:               exitcode-stdio-1.0
+  main-is:            CreditCardEx.hs
+  hs-source-dirs:     test
+  build-depends:      base ^>=4.17.2.0,
+                      test-framework,
+                      test-framework-hunit,
+                      HUnit,
+                      containers == 0.5.*
+  default-language: Haskell2010
