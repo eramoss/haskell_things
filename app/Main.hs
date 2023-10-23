@@ -1,12 +1,12 @@
 module Main where
 
-import qualified CreditCardEx (toDigit)
+import qualified CreditCardEx (isValidCardNumber)
 import qualified Control.Applicative as MyLib
 import Data.Type.Equality (TestEquality(testEquality))
 
 main :: IO ()
 main = do
-  putStrLn "Hello, Haskell!"
-  let x = CreditCardEx.toDigit 95240687
-  print x
+    let cardNumber = 4012888888881881
+    let isValid = CreditCardEx.isValidCardNumber cardNumber
+    putStrLn $ if isValid then "Valid" else "Invalid"
 
