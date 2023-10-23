@@ -22,7 +22,7 @@ source-repository head
   type: git
   location: https://github.com/eramoss/haskell-things
 library
-    exposed-modules:  CreditCardEx
+    exposed-modules:  CreditCardEx,Bendecoder
 
     -- Modules included in this library but not exported.
     -- other-modules:
