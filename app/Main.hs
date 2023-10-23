@@ -6,6 +6,11 @@ import Data.Type.Equality (TestEquality(testEquality))
 import CreditCardEx (toDigit, splitInDigits)
 import Data.Char (isAlpha, isAlphaNum, isNumber, digitToInt)
 
+generalDecode :: String -> String
+generalDecode s
+    | getNumberPrefix s /= "" = decodeString s
+    | otherwise = show (decodeNumber s)
+
 
 decodeNumber :: String -> Integer
 decodeNumber ('e': rest) = decodeNumber (reverse rest)
@@ -33,6 +38,10 @@ getPair (s:ss)
 transformPairOfString :: (String, String) -> (Integer, String)
 transformPairOfString (x,y) = (read x, y)
 
+getNumberPrefix :: String -> String
+getNumberPrefix (s:ss) | isNumber s = s : getNumberPrefix ss 
+    | otherwise = ""
+
 firstElement :: (a, b) -> a
 firstElement (x, _) = x
 secondElement :: (a, b) -> b
@@ -40,6 +49,6 @@ secondElement (_, x) = x
 
 main :: IO ()
 main = do
-    let encoded = "14:iam the string"
-    print (decodeString encoded)
+    let encoded = "i134e"
+    print (generalDecode encoded)
 
