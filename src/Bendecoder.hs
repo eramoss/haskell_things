@@ -1,10 +1,6 @@
 module Bendecoder (decodeBencodedValue, replace,decodeString,decodeNumber,getNumberPrefix,removeNumberPrefix,removeUntilEnd) where
 import Data.Char
 import Data.List
-import Control.Exception (throw)
-import Control.Exception.Base (runtimeError)
-import Text.Printf (errorBadArgument)
-
 
 
 decodeBencodedValue :: String -> String
@@ -28,8 +24,8 @@ decodeString (s:ss)
 
 readStringWithLen :: (Integer,String) -> String
 readStringWithLen (0, []) = ""
-readStringWithLen (_, []) = errorBadArgument
-readStringWithLen (0, _) = errorBadArgument
+readStringWithLen (_, []) = ""
+readStringWithLen (0, _) = ""
 readStringWithLen (len,':':ss) = readStringWithLen (len,ss)
 readStringWithLen (len,s:ss) = s : readStringWithLen (len-1,ss)
 
