@@ -1,7 +1,9 @@
-
-module Bendecoder (decodeBencodedValue, replace) where
+module Bendecoder (decodeBencodedValue, replace,decodeString,decodeNumber,getNumberPrefix,removeNumberPrefix,removeUntilEnd) where
 import Data.Char
 import Data.List
+import Control.Exception (throw)
+import Control.Exception.Base (runtimeError)
+import Text.Printf (errorBadArgument)
 
 
 
@@ -11,20 +13,26 @@ decodeBencodedValue ('i':ss) = decodeNumber ss ++ "," ++ decodeBencodedValue (re
 decodeBencodedValue ('e':ss) = "]" ++ decodeBencodedValue ss
 decodeBencodedValue ('l':ss) = "[" ++ decodeBencodedValue ss
 decodeBencodedValue (s:ss)
-  | isNumber s = decodedString ++ ","  ++ decodeBencodedValue (remove decodedString ss)
+  | isNumber s = decodeString(s:ss)
   | otherwise = decodeBencodedValue ss
-  where
-    decodedString = decodeString (read (getNumberPrefix( s:ss)), removeNumberPrefix (s:ss))
+
 
 decodeNumber :: String -> String
 decodeNumber ('e':ss) = ""
 decodeNumber (s:ss) = s : decodeNumber ss
 
-decodeString :: (Integer,String) -> String
-decodeString (_, []) = "" -- end the string but not counter
-decodeString (0, _) = "" -- end the counter
-decodeString (len,':':ss) = decodeString (len,ss)
-decodeString (len,s:ss) = s : decodeString (len-1,ss)
+decodeString :: String -> String
+decodeString (s:ss) 
+  | isNumber s = readStringWithLen (read (getNumberPrefix( s:ss)), removeNumberPrefix (s:ss))
+  | otherwise = error "string without len number.\nUsage: <number:some_value>"
+
+readStringWithLen :: (Integer,String) -> String
+readStringWithLen (0, []) = ""
+readStringWithLen (_, []) = errorBadArgument
+readStringWithLen (0, _) = errorBadArgument
+readStringWithLen (len,':':ss) = readStringWithLen (len,ss)
+readStringWithLen (len,s:ss) = s : readStringWithLen (len-1,ss)
+
 
 getNumberPrefix:: String -> String
 getNumberPrefix (s:ss)
