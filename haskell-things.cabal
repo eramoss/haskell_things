@@ -58,3 +58,15 @@ Test-Suite test-CreditCardEx
                       HUnit,
                       haskell-things
   default-language: Haskell2010
+
+
+Test-Suite test-Bendecoder
+  type:               exitcode-stdio-1.0
+  main-is:            BendecoderTest.hs
+  hs-source-dirs:     test
+  build-depends:      base ^>=4.17.2.0,
+                      test-framework,
+                      test-framework-hunit,
+                      HUnit,
+                      haskell-things
+  default-language: Haskell2010
